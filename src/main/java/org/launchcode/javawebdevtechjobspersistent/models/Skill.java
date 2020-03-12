@@ -1,8 +1,11 @@
 package org.launchcode.javawebdevtechjobspersistent.models;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Skill extends AbstractEntity {
@@ -10,7 +13,11 @@ public class Skill extends AbstractEntity {
     @Size (min = 3, max = 250)
     private String description ;
 
+    @ManyToMany(mappedBy ="skills")
+    private List<Job> jobs = new ArrayList<>();
+
     //Constructor
+
     public Skill (String description) {
         this.description = description;
     }
@@ -22,7 +29,7 @@ public class Skill extends AbstractEntity {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String description) { this.description = description;
     }
+
 }
