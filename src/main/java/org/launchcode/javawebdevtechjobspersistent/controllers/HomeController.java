@@ -20,7 +20,6 @@ import java.util.Optional;
  * Created by LaunchCode
  */
 @Controller
-
 public class HomeController {
     @Autowired
     private EmployerRepository employerRepository;
@@ -31,19 +30,16 @@ public class HomeController {
 
     @RequestMapping("")
     public String index(Model model) {
-
-        model.addAttribute("jobs", jobRepository.findAll());
-//TODO: mapping*
+        model.addAttribute("title","My Jobs");
         return "index";
     }
 
     @GetMapping("add")
     public String displayAddJobForm(Model model) {
-        model.addAttribute("title", "Add Job");
+       // model.addAttribute("title", "Add Job");
         model.addAttribute(new Job());
         model.addAttribute("employers", employerRepository.findAll());
         model.addAttribute("skills", skillRepository.findAll());
-
         return "add";
     }
 
@@ -55,18 +51,20 @@ public class HomeController {
 
             return "add";
         }
-        Employer employer = employerRepository.findById(employerId).orElse(new Employer());
+        Optional<Employer> result = employerRepository.findById(employerId);
+        Employer employer = result.get();
         newJob.setEmployer(employer);
-        List<Skill> newSkills = (List<Skill>) skillRepository.findAllById(skills);
-        newJob.setSkills(newSkills);
-
+        List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+        newJob.setSkills(skillObjs);
+        jobRepository.save(newJob);
+        model.addAttribute("jobs", jobRepository.findAll());
         return "redirect:";
     }
 
     @GetMapping("view/{jobId}")
     public String displayViewJob(Model model, @PathVariable int jobId) {
         Optional optJob = jobRepository.findById(jobId);
-        if (optJob.isPresent()) {
+        if (!optJob.isEmpty()) {
             Job job = (Job) optJob.get();
             model.addAttribute("job", job);
             return "view";

@@ -20,10 +20,10 @@ public class Employer extends AbstractEntity {
 
    // Constructor
     @OneToMany
-    @JoinColumn
-    private List<Job> employers = new ArrayList<>();
-    public Employer (String location) {
-        this.location = location;
+    @JoinColumn(name="employer_id")
+    private List<Job> jobs = new ArrayList<>();
+
+    public Employer () {
     }
 
     public String getLocation() {
@@ -34,9 +34,13 @@ public class Employer extends AbstractEntity {
         this.location = location;
     }
     //Hibernate
-    public Employer (){
 
+
+    public List<Job> getJobs() {
+        return jobs;
     }
 
-
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
 }

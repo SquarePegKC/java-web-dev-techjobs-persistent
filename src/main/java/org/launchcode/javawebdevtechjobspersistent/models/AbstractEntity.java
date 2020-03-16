@@ -23,15 +23,18 @@ public abstract class AbstractEntity {
     }
 
     public String getName() {
+
         return name;
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 
     @Override
     public String toString() {
+
         return name;
     }
 
@@ -45,6 +48,7 @@ public abstract class AbstractEntity {
 
     @Override
     public int hashCode() {
+
         return Objects.hash(id);
     }
 
